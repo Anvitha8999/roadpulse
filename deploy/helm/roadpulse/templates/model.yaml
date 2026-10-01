@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-model
+spec:
+  replicas: {{ .Values.model.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-model
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-model
+    spec:
+      containers:
+        - name: model
+          image: "{{ .Values.model.image }}:{{ .Values.imageTag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8001
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            periodSeconds: 5
+            failureThreshold: 36
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8001
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.model.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-model
+spec:
+  selector:
+    app: {{ .Release.Name }}-model
+  ports:
+    - port: 8001

@@ -1,0 +1,30 @@
+imageTag: "0.1.0"
+
+postgres:
+  image: postgres:16
+  user: roadpulse
+  password: roadpulse_dev
+  database: roadpulse
+  storage: 1Gi
+
+model:
+  image: roadpulse-model
+  replicas: 1
+  resources:
+    requests:
+      cpu: 250m
+      memory: 768Mi
+    limits:
+      memory: 2Gi
+
+backend:
+  image: roadpulse-backend
+  replicas: 1
+  ollamaHost: http://host.docker.internal:11434
+  ollamaModel: qwen2.5:3b
+  uploadsStorage: 1Gi
+
+frontend:
+  image: roadpulse-frontend
+  replicas: 1
+  nodePort: 30080
