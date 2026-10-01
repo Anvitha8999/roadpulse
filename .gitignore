@@ -8,3 +8,4 @@ node_modules/
 uploads/
 .terraform/
 *.tfstate*
+data/
