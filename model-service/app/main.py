@@ -19,7 +19,14 @@ _inference_lock = threading.Lock()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    app.state.model = YOLO(settings.model_path)
+    model = YOLO(settings.model_path)
+    model.predict(
+        Image.new("RGB", (settings.imgsz, settings.imgsz)),
+        imgsz=settings.imgsz,
+        device=settings.device,
+        verbose=False,
+    )
+    app.state.model = model
     yield
 
 
@@ -67,7 +74,7 @@ def predict(request: Request, image: Annotated[UploadFile, File()]):
     ]
 
     return Prediction(
-        severity=compute_severity(area_ratio, len(detections)),
+        severity=compute_severity(area_ratio),
         damage_types=sorted({d.label for d in detections}),
         damage_area_ratio=round(area_ratio, 4),
         num_detections=len(detections),
