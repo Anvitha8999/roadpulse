@@ -10,3 +10,4 @@ uploads/
 *.tfstate*
 data/
 .DS_Store
+infra/terraform/*-config
