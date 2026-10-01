@@ -1,0 +1,22 @@
+[project]
+name = "model-service"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "Anvitha8999", email = "anvithathupally@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.142.2",
+    "pydantic-settings>=2.15.0",
+    "python-multipart>=0.0.32",
+    "ultralytics>=8.4.170",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+model-service = "model_service:main"
+
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13.0"]
+build-backend = "uv_build"
