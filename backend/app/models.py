@@ -18,6 +18,10 @@ class Report(Base):
     severity: Mapped[int | None] = mapped_column(index=True)
     damage_types: Mapped[list[str] | None] = mapped_column(JSON)
     damage_area_ratio: Mapped[float | None]
+    num_detections: Mapped[int | None]
+    max_confidence: Mapped[float | None]
+    needs_review: Mapped[bool] = mapped_column(default=False, index=True)
+    model_version: Mapped[str | None] = mapped_column(String(64))
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), index=True
     )

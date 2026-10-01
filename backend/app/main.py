@@ -3,7 +3,16 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Annotated, Literal
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import (
+    BackgroundTasks,
+    Depends,
+    FastAPI,
+    File,
+    Form,
+    HTTPException,
+    Query,
+    UploadFile,
+)
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -12,6 +21,7 @@ from .config import settings
 from .db import Base, engine, get_db
 from .models import Report
 from .schemas import ReportOut
+from .scoring import score_report
 
 UPLOAD_DIR = Path(settings.upload_dir)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -41,6 +51,7 @@ def create_report(
     latitude: Annotated[float, Form(ge=-90, le=90)],
     longitude: Annotated[float, Form(ge=-180, le=180)],
     db: DbSession,
+    background_tasks: BackgroundTasks,
     description: Annotated[str | None, Form(max_length=500)] = None,
 ):
     ext = ALLOWED_TYPES.get(image.content_type)
@@ -59,6 +70,20 @@ def create_report(
     db.add(report)
     db.commit()
     db.refresh(report)
+
+    background_tasks.add_task(score_report, report.id)
+    return report
+
+
+@app.post("/reports/{report_id}/score", response_model=ReportOut, status_code=202)
+def rescore_report(report_id: int, db: DbSession, background_tasks: BackgroundTasks):
+    report = db.get(Report, report_id)
+    if report is None:
+        raise HTTPException(status_code=404, detail="Report not found")
+    report.status = "pending"
+    db.commit()
+    db.refresh(report)
+    background_tasks.add_task(score_report, report.id)
     return report
 
 

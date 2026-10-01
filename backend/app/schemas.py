@@ -15,6 +15,10 @@ class ReportOut(BaseModel):
     severity: int | None
     damage_types: list[str] | None
     damage_area_ratio: float | None
+    num_detections: int | None
+    max_confidence: float | None
+    needs_review: bool
+    model_version: str | None
     created_at: datetime
 
     @computed_field
