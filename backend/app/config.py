@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     database_url: str
     upload_dir: str = "uploads"
     model_service_url: str = "http://localhost:8001"
+    ollama_host: str = "http://localhost:11434"
+    ollama_model: str = "qwen2.5:3b"
 
 
 settings = Settings()

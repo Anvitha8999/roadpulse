@@ -21,6 +21,7 @@ from .config import settings
 from .db import Base, engine, get_db
 from .models import Report
 from .schemas import ReportOut
+from .agent_api import router as agent_router
 from .scoring import score_report
 
 UPLOAD_DIR = Path(settings.upload_dir)
@@ -107,3 +108,5 @@ def get_report(report_id: int, db: DbSession):
     if report is None:
         raise HTTPException(status_code=404, detail="Report not found")
     return report
+
+app.include_router(agent_router)
