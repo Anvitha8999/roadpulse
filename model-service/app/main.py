@@ -73,6 +73,8 @@ def predict(request: Request, image: Annotated[UploadFile, File()]):
         for box, cls, conf in zip(result.boxes.xyxy, result.boxes.cls, result.boxes.conf)
     ]
 
+    max_conf = max((d.confidence for d in detections), default=0.0)
+
     return Prediction(
         severity=compute_severity(area_ratio),
         damage_types=sorted({d.label for d in detections}),
@@ -81,4 +83,6 @@ def predict(request: Request, image: Annotated[UploadFile, File()]):
         detections=detections,
         model_version=settings.model_version,
         inference_ms=round(inference_ms, 1),
+        max_confidence=max_conf,
+        needs_review=bool(detections) and max_conf < settings.review_threshold,
     )

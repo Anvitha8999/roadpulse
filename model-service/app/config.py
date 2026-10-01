@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     model_path: str = "weights/best.pt"
     model_version: str = "yolo26n-seg-crackseg-v1"
     conf_threshold: float = 0.10
+    review_threshold: float = 0.30
     imgsz: int = 640
     device: str = "cpu"
 
