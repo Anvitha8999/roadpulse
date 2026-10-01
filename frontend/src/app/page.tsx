@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AgentChat from "@/components/AgentChat";
 import AutoRefresh from "@/components/AutoRefresh";
 import SeverityBadge from "@/components/SeverityBadge";
 import { getReports } from "@/lib/api";
@@ -65,6 +66,8 @@ export default async function Dashboard({
           </div>
         ))}
       </section>
+
+      <AgentChat />
 
       <section className="overflow-x-auto rounded-lg border bg-white">
         <table className="w-full text-left text-sm">
