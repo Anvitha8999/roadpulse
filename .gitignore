@@ -9,3 +9,4 @@ uploads/
 .terraform/
 *.tfstate*
 data/
+.DS_Store
