@@ -50,24 +50,24 @@ export default function UploadForm() {
   }
 
   const inputClass =
-    "mt-1 w-full rounded-md border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400";
+    "mt-1.5 w-full rounded-lg border border-curb bg-white px-3 py-2 text-sm font-normal focus:border-sign focus:outline-none";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 rounded-lg border bg-white p-6">
-      <label className="block text-sm font-medium">
+    <form onSubmit={handleSubmit} className="space-y-6 rounded-xl border border-curb bg-white p-6">
+      <label className="block text-sm font-semibold">
         Photo of the damage
         <input
           name="image"
           type="file"
           accept="image/jpeg,image/png"
           required
-          className="mt-1 block w-full text-sm"
+          className="mt-1.5 block w-full text-sm font-normal file:mr-3 file:rounded-lg file:border-0 file:bg-asphalt file:px-3 file:py-2 file:font-semibold file:text-white hover:file:bg-ink"
         />
-        <span className="mt-1 block text-xs text-slate-500">JPEG or PNG.</span>
+        <span className="mt-1 block text-xs font-normal text-muted">JPEG or PNG. A close, well-lit shot of the damage scores best.</span>
       </label>
 
       <div className="grid grid-cols-2 gap-4">
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-semibold">
           Latitude
           <input
             name="latitude"
@@ -81,7 +81,7 @@ export default function UploadForm() {
             className={inputClass}
           />
         </label>
-        <label className="block text-sm font-medium">
+        <label className="block text-sm font-semibold">
           Longitude
           <input
             name="longitude"
@@ -100,12 +100,12 @@ export default function UploadForm() {
       <button
         type="button"
         onClick={fillMyLocation}
-        className="rounded-md border px-3 py-1.5 text-sm hover:bg-slate-100"
+        className="rounded-lg border border-curb px-3 py-1.5 text-sm font-semibold hover:border-sign hover:text-sign"
       >
         Use my location
       </button>
 
-      <label className="block text-sm font-medium">
+      <label className="block text-sm font-semibold">
         Description (optional)
         <textarea
           name="description"
@@ -117,7 +117,7 @@ export default function UploadForm() {
       </label>
 
       {error && (
-        <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p role="alert" className="rounded-lg border-l-4 border-sev-5 bg-sev-5/10 px-3 py-2 text-sm">
           {error}
         </p>
       )}
@@ -125,7 +125,7 @@ export default function UploadForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+        className="w-full rounded-lg bg-sign px-4 py-2.5 text-sm font-bold text-white hover:bg-sign-dark disabled:opacity-50 sm:w-auto"
       >
         {status === "submitting" ? "Submitting…" : "Submit report"}
       </button>

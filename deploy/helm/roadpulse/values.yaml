@@ -1,4 +1,4 @@
-imageTag: "0.1.0"
+imageTag: "0.2.0"
 
 postgres:
   image: postgres:16

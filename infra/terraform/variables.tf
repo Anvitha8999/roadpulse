@@ -7,5 +7,5 @@ variable "cluster_name" {
 variable "image_tag" {
   description = "Docker image tag deployed for all RoadPulse services"
   type        = string
-  default     = "0.1.0"
+  default     = "0.2.0"
 }

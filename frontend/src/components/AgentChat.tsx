@@ -59,55 +59,54 @@ export default function AgentChat() {
     : "";
 
   return (
-    <section className="space-y-3 rounded-lg border bg-white p-4">
-      <div>
-        <h2 className="font-semibold">Ask the assistant</h2>
-        <p className="text-sm text-slate-600">
-          Answers come from live report data via read-only tools.
-        </p>
-      </div>
+    <section className="rounded-xl border border-curb bg-white p-5">
+      <h2 className="text-lg font-extrabold">Ask about the reports</h2>
+      <p className="mt-0.5 text-sm text-muted">
+        The assistant answers from live report data using read-only tools.
+      </p>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         {EXAMPLES.map((example) => (
           <button
             key={example}
             type="button"
             onClick={() => void ask(example)}
             disabled={loading}
-            className="rounded-full border px-3 py-1 text-xs text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+            className="rounded-full border border-curb px-3 py-1.5 text-sm text-ink hover:border-sign hover:text-sign disabled:opacity-50"
           >
             {example}
           </button>
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="mt-3 flex gap-2">
         <input
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
           maxLength={500}
-          placeholder="e.g. Which critical reports came in today?"
-          className="flex-1 rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400"
+          aria-label="Question for the assistant"
+          placeholder="Which critical reports came in today?"
+          className="min-w-0 flex-1 rounded-lg border border-curb bg-white px-3 py-2 text-sm focus:border-sign focus:outline-none"
         />
         <button
           type="submit"
           disabled={loading || !question.trim()}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:opacity-50"
+          className="rounded-lg bg-sign px-5 py-2 text-sm font-bold text-white hover:bg-sign-dark disabled:opacity-50"
         >
           {loading ? "Thinking…" : "Ask"}
         </button>
       </form>
 
       {error && (
-        <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+        <p role="alert" className="mt-3 rounded-lg border-l-4 border-sev-5 bg-sev-5/10 px-3 py-2 text-sm">
           {error}
         </p>
       )}
 
       {reply && (
-        <div className="space-y-2 rounded-md bg-slate-50 p-3">
-          <p className="whitespace-pre-wrap text-sm">{reply.answer}</p>
-          <p className="text-xs text-slate-500">{toolsNote}</p>
+        <div className="mt-3 rounded-lg border-l-4 border-sign bg-concrete/60 px-4 py-3">
+          <p className="whitespace-pre-wrap text-sm leading-relaxed">{reply.answer}</p>
+          <p className="mt-2 text-xs text-muted">{toolsNote}</p>
         </div>
       )}
     </section>
